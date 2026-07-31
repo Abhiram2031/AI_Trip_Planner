@@ -1,3 +1,5 @@
+import traceback
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from agent.agentic_workflow import GraphBuilder
@@ -20,13 +22,12 @@ app.add_middleware(
 )
 class QueryRequest(BaseModel):
     question: str
-
+graph = GraphBuilder(model_provider="groq")
+react_app=graph()
 @app.post("/query")
 async def query_travel_agent(query:QueryRequest):
     try:
         print(query)
-        graph = GraphBuilder(model_provider="groq")
-        react_app=graph()
         #react_app = graph.build_graph()
 
         png_graph = react_app.get_graph().draw_mermaid_png()
@@ -46,4 +47,11 @@ async def query_travel_agent(query:QueryRequest):
         
         return {"answer": final_output}
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        traceback.print_exc()   # Prints the complete traceback in the terminal
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": str(e),
+                "type": type(e).__name__
+            }
+        )
