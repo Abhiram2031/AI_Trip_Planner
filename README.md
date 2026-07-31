@@ -32,6 +32,7 @@ The application provides a FastAPI backend for AI agent processing and a Streaml
 - Exchange Rate API
 
 ## Project Structure
+```text
 AI_Trip_Planner/
 │
 ├── agent/
@@ -62,6 +63,7 @@ AI_Trip_Planner/
 ├── requirements.txt              # Project dependencies
 ├── pyproject.toml                # Project metadata and dependencies
 └── README.md
+'''
 
 ##Prerequisites
 Before running the project, install:
